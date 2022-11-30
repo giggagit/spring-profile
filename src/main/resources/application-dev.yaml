@@ -1,0 +1,9 @@
+server:
+  port: 8080
+
+logging:
+  config: classpath:log4j2-env/log4j2-dev.yaml
+    
+web:
+  msg: dev
+  

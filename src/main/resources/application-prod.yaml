@@ -1,0 +1,9 @@
+server:
+  port: 8090
+
+logging:
+  config: classpath:log4j2-env/log4j2-prod.yaml
+    
+web:
+  msg: prod
+  

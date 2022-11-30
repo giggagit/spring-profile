@@ -1,0 +1,9 @@
+{
+    "properties": [
+        {
+            "name": "web.msg",
+            "type": "java.lang.String",
+            "sourceType": "com.giggagit.spring.profile.controller.WebController.msg"
+        }
+    ]
+}

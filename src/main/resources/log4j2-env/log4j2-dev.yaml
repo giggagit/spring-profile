@@ -1,0 +1,81 @@
+Configuration:
+  name: dev-configutation
+  
+  # Extra logging related to initialization of Log4j
+  # Set to debug or trace if log4j initialization is failing
+  status: warn
+  
+  Appenders:
+  
+    Console:
+      name: LogToConsole
+      PatternLayout:
+        pattern: "> %d{yyyy-MM-dd HH:mm:ss.SSS} [%5p] (%F:%L) [%t] - %msg%n"
+        
+    RollingFile:
+      - name: LogAppToRollingFile
+        fileName: d:/logs/dev/app.log
+        filePattern: "d:/logs/dev/$${date:yyyy-MM}/app-%d{yyyy-MM-dd}-%i.log.gz"
+        PatternLayout:
+          pattern: "> %d{yyyy-MM-dd HH:mm:ss.SSS} [%5p] (%F:%L) [%t] - %msg%n"
+        Policies:
+          SizeBasedTriggeringPolicy: # Rollover(split file) once the file has reached the specified size
+            size: 10MB
+          TimeBasedTriggeringPolicy: # Rollover log file based on time
+            interval: 1
+            
+      - name: LogAPIToRollingFile
+        fileName: d:/logs/dev/restapi.log
+        filePattern: "d:/logs/dev/$${date:yyyy-MM}/restapi-%d{yyyy-MM-dd}-%i.log.gz"
+        PatternLayout:
+          pattern: ">> %d{yyyy-MM-dd HH:mm:ss.SSS} [%5p] (%F:%L) [%t] - %msg%n"
+        Policies:
+          SizeBasedTriggeringPolicy: # Rollover(split file) once the file has reached the specified size
+            size: 10MB
+          TimeBasedTriggeringPolicy: # Rollover log file based on time
+            interval: 1
+          
+        
+      - name: LogFrameworkToRollingFile
+        fileName: d:/logs/dev/framework.log
+        filePattern: "d:/logs/dev/$${date:yyyy-MM}/framework-%d{yyyy-MM-dd}-%i.log.gz"
+        PatternLayout:
+          pattern: ">>> %d{yyyy-MM-dd HH:mm:ss.SSS} [%5p] (%F:%L) [%t] - %msg%n"
+        Policies:
+          SizeBasedTriggeringPolicy: # Rollover(split file) once the file has reached the specified size
+            size: 10MB
+          TimeBasedTriggeringPolicy: # Rollover log file based on time. Default value is 1
+            interval: 1
+            
+  Loggers:
+  
+      Root:
+        level: error
+        AppenderRef:
+          - ref: LogToConsole
+          
+      Logger:
+        - name: com.giggagit.spring.profile
+          level: debug
+          additivity: false # Display log in root loger
+          AppenderRef:
+            - ref: LogAppToRollingFile
+            
+        - name: com.giggagit.rest.api1
+          level: debug
+          additivity: false # Display log in root loger
+          AppenderRef:
+            - ref: LogAPIToRollingFile
+            - ref: LogToConsole
+            
+        - name: com.giggagit.rest.api2
+          level: debug
+          additivity: false # Display log in root loger
+          AppenderRef:
+            - ref: LogAPIToRollingFile
+            
+        - name: org.springframework
+          level: info
+          additivity: false # Display log in root loger
+          AppenderRef:
+            - ref: LogFrameworkToRollingFile
